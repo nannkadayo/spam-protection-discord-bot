@@ -7,8 +7,8 @@ http.createServer(function (request, response) {
   response.writeHead(200, { 'Content-Type': 'text/plain' });
   response.end('Discord bot is active now \n');
 }).listen(3000);
-const log = ("1197454689172729877")//logを送信するid
-const token = ("MTE5NzQ2MjQ3ODk4OTI5NTY3Ng.G7uJeQ.pWA3MRTxmNqWeSoxz26PPvWXG-QJCojTfhppHE")//token
+const log = ("")//logを送信するid
+const token = ("")//token
 
 // Discord bot implements
 const discord = require('discord.js');
