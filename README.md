@@ -7,5 +7,5 @@
 もちろんライセンスなんていりません
 何とかコモンズライセンス？だっけzero1.0だからね
 config.jsonはtokenにdiscord bot tokenを
-logに送信したいチャンネルidをいくらでも
-adminも登録したいadminユーザーidをいくらでも
+logに送信したいチャンネルidを配列としていくらでも
+adminも登録したいadminユーザーidを配列としていくらでも
