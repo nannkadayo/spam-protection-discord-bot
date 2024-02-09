@@ -3,6 +3,7 @@
 必要npmパッケージ
 ・discord.js
 ・@keyv/sqlite
+・keyv
 ・signale
 もちろんライセンスなんていりません
 何とかコモンズライセンス？だっけzero1.0だからね
