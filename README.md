@@ -6,3 +6,6 @@
 ・signale
 もちろんライセンスなんていりません
 何とかコモンズライセンス？だっけzero1.0だからね
+config.jsonはtokenにdiscord bot tokenを
+logに送信したいチャンネルidをいくらでも
+adminも登録したいadminユーザーidをいくらでも
