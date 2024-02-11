@@ -5,8 +5,7 @@
 ・@keyv/sqlite
 ・keyv
 ・signale
-もちろんライセンスなんていりません
-何とかコモンズライセンス？だっけzero1.0だからね
+もちろん自由に使ってください（使う人はいない）
 config.jsonはtokenにdiscord bot tokenを
 logに送信したいチャンネルidを配列としていくらでも
 adminも登録したいadminユーザーidを配列としていくらでも
