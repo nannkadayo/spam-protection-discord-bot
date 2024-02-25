@@ -9,3 +9,4 @@
 config.jsonはtokenにdiscord botのtokenを    
 logに送信したいチャンネルidを配列としていくらでも  
 adminも登録したいadminユーザーidを配列としていくらでも  
+悪夢レベルで切ったねーコードなので(コメントが消されてなかったり)お気を付けを,,,,
