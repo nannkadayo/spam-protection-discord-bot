@@ -202,8 +202,11 @@ client.on(Events.InteractionCreate, async interaction => {
   }
   else if (interaction.commandName === 'check') {
     getuserpoint = interaction.options.getUser("user")
+    
     //console.log(getuserpoint)
-    appro = getuserpoint.username
+    appro = getuserpoint.globalName
+    
+    if(!getuserpoint.bot){
     getuserpoint = getuserpoint.id
     if (checkStringInArray(getuserpoint, botconfig.admin)) {
       state = (':white_check_mark:')
@@ -229,14 +232,25 @@ client.on(Events.InteractionCreate, async interaction => {
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
     // interaction.reply({ content:appro + 'のポイントは' + userPunishments + 'です。', ephemeral: true })
-  }
+  }else{
+    botname = getuserpoint.username
+    const embed = new EmbedBuilder()
+      .setTitle('荒らし対策')
 
+      .setFields({ name: 'エラー', value:botname + "はbotです。"})
+      .setColor(0xff0000)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text: username, iconURL: icon });
+    interaction.reply({ embeds: [embed] })
+  }
+  }
   // interaction.reply({ content: '管理者は選択できません', ephemeral: true })
 
 
   else if (interaction.commandName === 'point') {
     namae = interaction.options.getUser("user")
     pointoo = interaction.options.getNumber("point")
+    if(!namae.bot){
     if (checkStringInArray(interaction.member.id, botconfig.admin)) {
 
 
@@ -281,7 +295,18 @@ client.on(Events.InteractionCreate, async interaction => {
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
     }
+  }else{
+    botname = namae.username
+    const embed = new EmbedBuilder()
+      .setTitle('荒らし対策')
+
+      .setFields({ name: 'エラー', value:botname + "はbotです。"})
+      .setColor(0xff0000)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text: username, iconURL: icon });
+    interaction.reply({ embeds: [embed] })
   }
+}
   //else{
   //interaction.reply({ content: '管理者は選択できません', ephemeral: true })
   //}
