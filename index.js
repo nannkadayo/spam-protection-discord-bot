@@ -154,6 +154,7 @@ client.on(Events.InteractionCreate, async interaction => {
     gbanuser = interaction.options.getUser("user")
     const gbanname = gbanuser.globalName
     gbanuser = gbanuser.id
+    if (checkStringInArray(!gbanuser, botconfig.admin)) {
     const isBanned = await db.get(gbanuser);
     if (!isBanned) {
     Ban(gbanuser)
@@ -178,17 +179,26 @@ client.on(Events.InteractionCreate, async interaction => {
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
     }
-    }
-    else {
-      //interaction.reply({ content: 'あなたは管理者として設定されていません', ephemeral: true })
-      const embed = new EmbedBuilder()  //お知らせ
-        .setTitle('荒らし対策')
-        .setFields({ name: 'permission denied', value: 'あなたは管理者として設定されていません' })
-        .setColor(0xff0000)
-        .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
-        .setFooter({ name: "実行者", text: username, iconURL: icon });
-      interaction.reply({ embeds: [embed] })
-    }
+  }else{
+    const embed = new EmbedBuilder()  //お知らせ
+      .setTitle('荒らし対策')
+      .setFields({ name: 'permission denied', value: '管理者はban出来ません' })
+      .setColor(0xff0000)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text: username, iconURL: icon });
+    interaction.reply({ embeds: [embed] })
+  }
+}
+  else {
+    //interaction.reply({ content: 'あなたは管理者として設定されていません', ephemeral: true })
+    const embed = new EmbedBuilder()  //お知らせ
+      .setTitle('荒らし対策')
+      .setFields({ name: 'permission denied', value: 'あなたは管理者として設定されていません' })
+      .setColor(0xff0000)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text: username, iconURL: icon });
+    interaction.reply({ embeds: [embed] })
+  }
   }
   else if (interaction.commandName === 'check') {
     getuserpoint = interaction.options.getUser("user")
