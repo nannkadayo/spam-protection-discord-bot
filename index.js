@@ -252,7 +252,7 @@ client.on(Events.InteractionCreate, async interaction => {
     pointoo = interaction.options.getNumber("point")
     if(!namae.bot){
     if (checkStringInArray(interaction.member.id, botconfig.admin)) {
-
+if(!checkStringInArray(namae.id, botconfig.admin)){
 
       //if (namae.permissions.has('Administrator')){
       //console.log(namae)
@@ -283,6 +283,15 @@ client.on(Events.InteractionCreate, async interaction => {
           .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
           .setFooter({ name: "実行者", text: username, iconURL: icon });
         interaction.reply({ embeds: [embed] })
+      }}
+      else{
+        const embed = new EmbedBuilder()  //お知らせ
+        .setTitle('荒らし対策')
+        .setFields({ name: 'エラー', value: '管理者は選択できません' })
+        .setColor(0xff0000)
+        .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+        .setFooter({ name: "実行者", text: username, iconURL: icon });
+      interaction.reply({ embeds: [embed] })
       }
     }
     else {
@@ -496,4 +505,3 @@ async function UnBan(userId) {
 }
 
 client.login(token);
-
