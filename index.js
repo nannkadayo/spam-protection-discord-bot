@@ -27,7 +27,6 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 const signale = require('signale');
 const startTime = performance.now();
 signale.start('起動を開始しました')
-
 client.on('ready', async message => {
   await client.application.commands
     .set(
