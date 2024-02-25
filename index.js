@@ -202,7 +202,7 @@ client.on(Events.InteractionCreate, async interaction => {
   }
   else if (interaction.commandName === 'check') {
     getuserpoint = interaction.options.getUser("user")
-    
+    const checkicon = getuserpoint.avatarURL();
     //console.log(getuserpoint)
     appro = getuserpoint.globalName
     
@@ -225,8 +225,11 @@ client.on(Events.InteractionCreate, async interaction => {
     }
     const embed = new EmbedBuilder()
       .setTitle('荒らし対策')
-
-      .setFields({ name: '結果', value: appro + 'のポイントは' + userPunishments + 'です。' }, { name: 'bot管理者？', value: state }, { name: 'gban?', value: banstate })
+      .setAuthor({
+        name: appro,
+        iconURL: checkicon
+      })
+      .setFields({ name: '結果', value: 'ポイント' + userPunishments + '/'+ banmaxpoint }, { name: 'bot管理者？', value: state }, { name: 'gban?', value: banstate })
       .setColor(0x3cb371)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -460,7 +463,7 @@ async function point(message, poi, client, color, naiyou) {
     return;
   }
 }
-function dm(id,naiyou){
+function embedsdm(id,naiyou){
   const user = client.users.cache.get(id)
 	user.send({ embeds:[naiyou]})
 }
