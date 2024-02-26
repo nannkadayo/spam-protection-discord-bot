@@ -1,7 +1,6 @@
 // Response for Uptime Robot
 const http = require('http');
 const fs = require('fs');
-const readlineSync = require('readline-sync');
 const { Client, Events, GatewayIntentBits, Intents, EmbedBuilder, SlashCommandBuilder} = require('discord.js');
 const Keyv = require('keyv');
 const botconfig = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
