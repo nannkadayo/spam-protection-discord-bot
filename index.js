@@ -74,7 +74,7 @@ client.on('ready', async message => {
          // new SlashCommandBuilder()
           //.setName('banlist')
           //.setDescription('荒らし対策botのbanlist'),
-              
+
       ].map((command) => command.toJSON())
     )
     .then(() => signale.await('スラッシュコマンド登録中...'));
@@ -83,7 +83,7 @@ client.on('ready', async message => {
   signale.success(`Botの起動が完了しました。${client.user.tag}でログイン中`);
   let time = endTime - startTime
   signale.note('起動時間' + time)
- 
+
 });
 
 
@@ -94,7 +94,7 @@ client.on(Events.InteractionCreate, async interaction => {
   // avatar = interaction.user.avatarURL({ dynamic: true })
   if (!interaction.isChatInputCommand()) return;
   //if (interaction.commandName === 'banlist'){
-    
+
   //}
   if (interaction.commandName === 'pardon'){
     pardonuser = interaction.options.getUser("user")
@@ -117,7 +117,7 @@ client.on(Events.InteractionCreate, async interaction => {
       else{
         const embed = new EmbedBuilder()  //お知らせ
         .setTitle('荒らし対策')
-  
+
         .setFields({ name: 'エラー', value: pardonname + 'は、banされていません。' })
         .setColor(0xff0000)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
@@ -147,7 +147,7 @@ client.on(Events.InteractionCreate, async interaction => {
    .setFooter({ name: "実行者", text: username, iconURL: icon });
  interaction.reply({ embeds: [embed] })
   }
-  
+
   else if (interaction.commandName === 'gban') {
     if (checkStringInArray(interaction.member.id, botconfig.admin)) {
     gbanuser = interaction.options.getUser("user")
@@ -204,7 +204,7 @@ client.on(Events.InteractionCreate, async interaction => {
     const checkicon = getuserpoint.avatarURL();
     //console.log(getuserpoint)
     appro = getuserpoint.globalName
-    
+
     if(!getuserpoint.bot){
     getuserpoint = getuserpoint.id
     if (checkStringInArray(getuserpoint, botconfig.admin)) {
@@ -326,7 +326,7 @@ if(!checkStringInArray(namae.id, botconfig.admin)){
 client.on('messageCreate', async message => {
   const icon = message.member.user.avatarURL();
   if (message.content.match(/test!|しね|ころす|死ね|殺す|きっしょ|ゴミ|野獣先輩|糞|カス|消えろ|生きる価値なし|きえろ|fuck|fxxk|ファック|ふぁっく/)) {  //悪いものがないか探る
-    if (message.author.bot) return;
+    if (message.author.bot || checkStringInArray(message.member.id, botconfig.owner)) return;
     if (checkStringInArray(message.member.id, botconfig.owner)) return;
     if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, botconfig.admin)) {
       messageas = message.content
@@ -356,7 +356,7 @@ client.on('messageCreate', async message => {
 })
 client.on('messageCreate', async message => {
   if (message.content.match(/[a-zA-Z0-9_-]{23,28}\.[a-zA-Z0-9_-]{6,7}\.[a-zA-Z0-9_-]{27}/)) { // tokenの検知
-    if (message.author.bot) return;
+    if (message.author.bot || checkStringInArray(message.member.id, botconfig.owner)) return;
     member = message.member
     const icon = message.member.user.avatarURL();
     const username = message.member.user.username;
@@ -465,7 +465,7 @@ async function point(message, poi, client, color, naiyou) {
 }
 function embedsdm(id,naiyou){
   const user = client.users.cache.get(id)
-	user.send({ embeds:[naiyou]})
+  user.send({ embeds:[naiyou]})
 }
 function syncban(){
   client.guilds.cache.forEach(g => { // Botが参加しているすべてのサーバーで実行
