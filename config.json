@@ -2,5 +2,6 @@
     "token":"",
     "banmaxpoint":"10",
     "log": [""],
+    "owner": [""],
     "admin":[""]
 }
