@@ -327,7 +327,8 @@ client.on('messageCreate', async message => {
   const icon = message.member.user.avatarURL();
   if (message.content.match(/test!|しね|ころす|死ね|殺す|きっしょ|ゴミ|野獣先輩|糞|カス|消えろ|生きる価値なし|きえろ|fuck|fxxk|ファック|ふぁっく/)) {  //悪いものがないか探る
     if (message.author.bot) return;
-    if (message.member.permissions.has('Administrator')) {
+    if (checkStringInArray(message.member.id, botconfig.owner)) return;
+    if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, botconfig.admin)) {
       messageas = message.content
       const username = message.member.user.username;
       console.log(message.content + "を削除しました")
@@ -360,7 +361,7 @@ client.on('messageCreate', async message => {
     const icon = message.member.user.avatarURL();
     const username = message.member.user.username;
     messageas = message.content
-    if (message.member.permissions.has('Administrator')) {     //adminの時
+    if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, botconfig.admin)) {     //adminの時
       console.log(username + 'をtimeoutできませんでした。ですがtoken削除を実行しました')
 
       const embed = new EmbedBuilder()  //お知らせ
