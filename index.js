@@ -136,6 +136,7 @@ client.on(Events.InteractionCreate, async interaction => {
     }
   }
   else if (interaction.commandName === 'syncing'){
+    if (checkStringInArray(interaction.member.id, botconfig.admin)) {
    syncban()
    const embed = new EmbedBuilder()  //お知らせ
    .setTitle('荒らし対策')
@@ -145,14 +146,28 @@ client.on(Events.InteractionCreate, async interaction => {
    .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
    .setFooter({ name: "実行者", text: username, iconURL: icon });
  interaction.reply({ embeds: [embed] })
+    }
+    else{
+      const embed = new EmbedBuilder()  //お知らせ
+      .setTitle('荒らし対策')
+
+      .setFields({ name: 'エラー', value: '管理者として設定されていません' })
+      .setColor(0xff0000)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text: username, iconURL: icon });
+    interaction.reply({ embeds: [embed] })
+    }
   }
 
   else if (interaction.commandName === 'gban') {
     if (checkStringInArray(interaction.member.id, botconfig.admin)) {
     gbanuser = interaction.options.getUser("user")
     const gbanname = gbanuser.globalName
+    const bot = gbanuser.bot
     gbanuser = gbanuser.id
-    if (checkStringInArray(!gbanuser, botconfig.admin)) {
+    if (!checkStringInArray(gbanuser, botconfig.admin)) {
+      if(!bot){
+
     const isBanned = await db.get(gbanuser);
     if (!isBanned) {
     Ban(gbanuser)
@@ -177,6 +192,16 @@ client.on(Events.InteractionCreate, async interaction => {
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
     }
+  }
+  else{
+    const embed = new EmbedBuilder()  //お知らせ
+      .setTitle('荒らし対策')
+      .setFields({ name: 'エラー', value: 'botはban出来ません' })
+      .setColor(0xff0000)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text: username, iconURL: icon });
+    interaction.reply({ embeds: [embed] })
+  }
   }else{
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle('荒らし対策')
