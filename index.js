@@ -98,10 +98,13 @@ client.on(Events.InteractionCreate, async interaction => {
   if (interaction.commandName === 'pardon'){
     pardonuser = interaction.options.getUser("user")
     pardonname = pardonuser.globalName
-    pardonuser = pardonuser.id
+    const baskup = pardonuser
+        pardonuser = pardonuser.id
     if (checkStringInArray(interaction.member.id, botconfig.admin)) {
+      if(!baskup.bot){
       const isBanned = await db.get(pardonuser);
       if (isBanned) {
+        if(!checkStringInArray(baskup.id, botconfig.admin)){
       UnBan(pardonuser)
       const embed = new EmbedBuilder()  //お知らせ
       .setTitle('荒らし対策')
@@ -123,6 +126,27 @@ client.on(Events.InteractionCreate, async interaction => {
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
       }
+    }
+    else{
+      const embed = new EmbedBuilder()  //お知らせ
+      .setTitle('荒らし対策')
+      .setFields({ name: 'エラー', value: '管理者は選択できません' })
+      .setColor(0xff0000)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text: username, iconURL: icon });
+    interaction.reply({ embeds: [embed] })
+    }
+    }else{
+      botname = baskup.username
+      const embed = new EmbedBuilder()
+        .setTitle('荒らし対策')
+  
+        .setFields({ name: 'エラー', value:botname + "はbotです。"})
+        .setColor(0xff0000)
+        .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+        .setFooter({ name: "実行者", text: username, iconURL: icon });
+      interaction.reply({ embeds: [embed] })
+    }
     }
     else {
       //interaction.reply({ content: 'あなたは管理者として設定されていません', ephemeral: true })
