@@ -496,9 +496,13 @@ function syncban(){
     try {
       g.members.fetch().then((memberss) => {
         memberss.forEach(async (membersa) => {
+          if (!guild.permissions.has('Administrator')) {
             const isBanned = await db.get(membersa.id);
             if (isBanned) {
               membersa.ban({ reason: 'グローバルbanされているユーザーです。' });
+          }
+          }else{
+            console.log('管理者である可能性があります')
           }
         });
       });
