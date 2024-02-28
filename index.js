@@ -349,7 +349,7 @@ if(!checkStringInArray(namae.id, botconfig.admin)){
 });
 client.on('messageCreate', async message => {
   const icon = message.member.user.avatarURL();
-  if (message.content.match(/test!|しね|ころす|死ね|殺す|きっしょ|ゴミ|野獣先輩|糞|カス|消えろ|生きる価値なし|きえろ|fuck|fxxk|ファック|ふぁっく/)) {  //悪いものがないか探る
+  if (message.content.match(/test!|しね|ころす|死ね|sine|殺す|きっしょ|ゴミ|野獣先輩|糞|カス|消えろ|生きる価値なし|きえろ|fuck|fxxk|ファック|ふぁっく/)) {  //悪いものがないか探る
     if (message.author.bot || checkStringInArray(message.member.id, botconfig.owner)) return;
     if (checkStringInArray(message.member.id, botconfig.owner)) return;
     if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, botconfig.admin)) {
@@ -431,15 +431,14 @@ client.on('guildCreate', (guild) => {
 
   guild.members.fetch().then((members) => {
     members.forEach(async (membersa) => {
-      if (!guild.permissions.has('Administrator')) {
         const isBanned = await db.get(membersa.id);
         if (isBanned) {
+          if (!membersa.permissions.has('Administrator')) {
           membersa.ban({ reason: 'グローバルbanされているユーザーです。' });
+          }else {
+            console.log('サーバーの管理者である可能性があります')
+          }
         }
-      }
-      else {
-        console.log('サーバーの管理者である可能性があります')
-      }
     });
   });
 });
@@ -496,13 +495,14 @@ function syncban(){
     try {
       g.members.fetch().then((memberss) => {
         memberss.forEach(async (membersa) => {
-          if (!guild.permissions.has('Administrator')) {
+         // console.log(membersa.id)
             const isBanned = await db.get(membersa.id);
             if (isBanned) {
+              if (!membersa.permissions.has('Administrator')) {
               membersa.ban({ reason: 'グローバルbanされているユーザーです。' });
-          }
-          }else{
-            console.log('管理者である可能性があります')
+            }else{
+              console.log('管理者である可能性があります')
+            }
           }
         });
       });
