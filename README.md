@@ -13,11 +13,11 @@ adminも登録したいadminユーザーidを配列としていくらでも
 ownerには所有者を配列で無制限ユーザ
 ### 起動方法
 #### install
-```shell
+``` shell
 npm install
 ```
 #### start
-```shell
+``` shell
 npm start
 ```
 悪夢レベルで切ったねーコードなので(あとから使うかもしれないからコメントが消されてなかったり)お気を付けを,,,,
