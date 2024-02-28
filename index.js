@@ -312,12 +312,12 @@ if(!checkStringInArray(namae.id, botconfig.admin)){
         //namae = namae.id
         //console.log(namae)
         const newPunishments = pointoo;
-        await punishments.set(userId, newPunishments); // 違反点数を保存
-        const userPunishments = await punishments.get(userId) || 0;
-        //interaction.reply({ content: '操作が完了しました', ephemeral: true })
+        const oldpo = await punishments.get(userId) || 0;
+        await punishments.set(userId, newPunishments); // 違反点数を保存   
+        const po = await punishments.get(userId) || 0; 
         const embed = new EmbedBuilder()  //お知らせ
           .setTitle('荒らし対策')
-          .setFields({ name: '完了', value: '操作が完了しました。' })
+          .setFields({ name: '完了', value: '操作が完了しました。' },{ name: '結果', value:oldpo + '/' + banmaxpoint + '→' + po + '/' + banmaxpoint})
           .setColor(0x3cb371)
           .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
           .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -481,7 +481,7 @@ async function point(message, poi, client, color, naiyou) {
   await punishments.set(userId, newPunishments); // 違反点数を保存
   const embed = new EmbedBuilder()  //お知らせ
     .setTitle('荒らし対策')
-    .setFields({ name: '報告', value: naiyou }, { name: '内容:', value: messageas }, { name: '違反点数', value: newPunishments + "/10" })
+    .setFields({ name: '報告', value: naiyou }, { name: '内容:', value: messageas }, { name: '違反点数', value: newPunishments + "/" + banmaxpoint })
     .setColor(color)
     .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
     .setFooter({ name: "名前", text: username, iconURL: icon });
