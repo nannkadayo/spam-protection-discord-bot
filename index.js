@@ -1,7 +1,7 @@
 // Response for Uptime Robot
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-import botconfig from "./config.js";
+import botconfig from "./bot.config.js";
 //const botconfig = require("./con.js");
 const http = require('http');
 const fs = require('fs');
@@ -18,11 +18,15 @@ function checkStringInArray(str, array) {
 }
 //const client = new Client();
 //client.commands = new Collection();
-const log = (botconfig.log)//logを送信するid
-const token = (botconfig.token)//token
-const banmaxpoint = (botconfig.banmaxpoint)
-const owner = (botconfig.owner)
-const admin = (botconfig.admin)
+const log = (botconfig.botdata.log)//logを送信するid
+const token = (botconfig.botdata.token)//token
+const banmaxpoint = (botconfig.botdata.banmaxpoint)
+const owner = (botconfig.botdata.owner)
+const admin = (botconfig.botdata.admin)
+const fatal = (botconfig.color.fatal)
+const warn = (botconfig.color.warn)
+const success = (botconfig.color.success)
+const mybotname = (botconfig.botdata.botname)
 // Discord bot implements
 const discord = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
@@ -36,7 +40,7 @@ client.on('ready', async message => {
       [
         new SlashCommandBuilder()
           .setName('point')
-          .setDescription('荒らし対策botの違反点数設定')
+          .setDescription(mybotname + 'の違反点数設定')
           .addUserOption((option) =>
             option
               .setName('user')
@@ -49,7 +53,7 @@ client.on('ready', async message => {
               .setRequired(true)),
         new SlashCommandBuilder()
           .setName('gban')
-          .setDescription('荒らし対策botのgban')
+          .setDescription(mybotname + 'のgban')
           .addUserOption((option) =>
             option
               .setName('user')
@@ -57,7 +61,7 @@ client.on('ready', async message => {
               .setRequired(true)),
         new SlashCommandBuilder()
           .setName('check')
-          .setDescription('荒らし対策botのポイント確認')
+          .setDescription(mybotname + 'のポイント確認')
           .addUserOption((option) =>
             option
               .setName('user')
@@ -65,10 +69,10 @@ client.on('ready', async message => {
               .setRequired(true)),
               new SlashCommandBuilder()
           .setName('syncing')
-          .setDescription('荒らし対策botのグローバルban同期'),
+          .setDescription(mybotname + 'のグローバルban同期'),
           new SlashCommandBuilder()
           .setName('pardon')
-          .setDescription('荒らし対策botのgban解除')
+          .setDescription(mybotname + 'のgban解除')
           .addUserOption((option) =>
             option
               .setName('user')
@@ -76,7 +80,7 @@ client.on('ready', async message => {
               .setRequired(true)),
          // new SlashCommandBuilder()
           //.setName('banlist')
-          //.setDescription('荒らし対策botのbanlist'),
+          //.setDescription(mybotname + 'のbanlist'),
 
       ].map((command) => command.toJSON())
     )
@@ -111,10 +115,10 @@ client.on(Events.InteractionCreate, async interaction => {
         if(!checkStringInArray(baskup.id, admin)){
       UnBan(pardonuser)
       const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
 
       .setFields({ name: '結果', value: pardonname + 'をgban解除しました。' })
-      .setColor(0x3cb371)
+      .setColor(success)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -122,10 +126,10 @@ client.on(Events.InteractionCreate, async interaction => {
       }
       else{
         const embed = new EmbedBuilder()  //お知らせ
-        .setTitle('荒らし対策')
+        .setTitle(mybotname)
 
         .setFields({ name: 'エラー', value: pardonname + 'は、banされていません。' })
-        .setColor(0xff0000)
+        .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
@@ -133,9 +137,9 @@ client.on(Events.InteractionCreate, async interaction => {
     }
     else{
       const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
       .setFields({ name: 'エラー', value: '管理者は選択できません' })
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -143,10 +147,10 @@ client.on(Events.InteractionCreate, async interaction => {
     }else{
        var botname = baskup.username
       const embed = new EmbedBuilder()
-        .setTitle('荒らし対策')
+        .setTitle(mybotname)
 
         .setFields({ name: 'エラー', value:botname + "はbotです。"})
-        .setColor(0xff0000)
+        .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
@@ -155,9 +159,9 @@ client.on(Events.InteractionCreate, async interaction => {
     else {
       //interaction.reply({ content: 'あなたは管理者として設定されていません', ephemeral: true })
       const embed = new EmbedBuilder()  //お知らせ
-        .setTitle('荒らし対策')
+        .setTitle(mybotname)
         .setFields({ name: 'permission denied', value: 'あなたは管理者として設定されていません' })
-        .setColor(0xff0000)
+        .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
@@ -168,20 +172,20 @@ client.on(Events.InteractionCreate, async interaction => {
 
       syncban()
    const embed = new EmbedBuilder()  //お知らせ
-   .setTitle('荒らし対策')
+   .setTitle(mybotname)
 
    .setFields({ name: '結果', value: 'banを同期しました' })
-   .setColor(0x3cb371)
+   .setColor(success)
    .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
    .setFooter({ name: "実行者", text: username, iconURL: icon });
  interaction.reply({ embeds: [embed] })
     }
     else{
       const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
 
       .setFields({ name: 'エラー', value: '管理者として設定されていません' })
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -202,10 +206,10 @@ client.on(Events.InteractionCreate, async interaction => {
     Ban(gbanuser)
     syncban()
     const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
 
       .setFields({ name: '結果', value: gbanname + 'をgbanしました。' })
-      .setColor(0x3cb371)
+      .setColor(success)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -213,10 +217,10 @@ client.on(Events.InteractionCreate, async interaction => {
     }
     else{
       const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
 
       .setFields({ name: 'エラー', value: gbanname + 'は、既にbanされています' })
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -224,18 +228,18 @@ client.on(Events.InteractionCreate, async interaction => {
   }
   else{
     const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
       .setFields({ name: 'エラー', value: 'botはban出来ません' })
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
   }
   }else{
     const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
       .setFields({ name: 'permission denied', value: '管理者はban出来ません' })
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -244,9 +248,9 @@ client.on(Events.InteractionCreate, async interaction => {
   else {
     //interaction.reply({ content: 'あなたは管理者として設定されていません', ephemeral: true })
     const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
       .setFields({ name: 'permission denied', value: 'あなたは管理者として設定されていません' })
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -260,29 +264,19 @@ client.on(Events.InteractionCreate, async interaction => {
 
     if(!getuserpoint.bot){
     getuserpoint = getuserpoint.id
-    if (checkStringInArray(getuserpoint, admin)) {
-       var state = (':white_check_mark:')
-    }
-    else {
-      var state = (':x: ')
-    }
+    var state = checkStringInArray(getuserpoint, admin)
     //console.log(getuser)
     const userPunishments = await punishments.get(getuserpoint) || 0;
     const isBanned = await db.get(getuserpoint);
-    if (isBanned) {
-      var banstate = (':white_check_mark:')
-    }
-    else {
-       var banstate = (':x: ')
-    }
+    
     const embed = new EmbedBuilder()
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
       .setAuthor({
         name: appro,
         iconURL: checkicon
       })
-      .setFields({ name: '結果', value: 'ポイント' + userPunishments + '/'+ banmaxpoint }, { name: 'bot管理者？', value: state }, { name: 'gban?', value: banstate })
-      .setColor(0x3cb371)
+      .setFields({ name: '結果', value: 'ポイント' + userPunishments + '/'+ banmaxpoint }, { name: 'bot管理者？', value: state ? `> :white_check_mark:`: `> :x: `}, { name: 'gban?', value: isBanned ? `> :white_check_mark:`: `> :x: `})
+      .setColor(success)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -290,10 +284,10 @@ client.on(Events.InteractionCreate, async interaction => {
   }else{
      var botname = getuserpoint.username
     const embed = new EmbedBuilder()
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
 
       .setFields({ name: 'エラー', value:botname + "はbotです。"})
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -321,9 +315,9 @@ if(!checkStringInArray(namae.id, admin)){
         await punishments.set(userId, newPunishments); // 違反点数を保存   
         const po = await punishments.get(userId) || 0; 
         const embed = new EmbedBuilder()  //お知らせ
-          .setTitle('荒らし対策')
+          .setTitle(mybotname)
           .setFields({ name: '完了', value: '操作が完了しました。' },{ name: '結果', value:oldpo + '/' + banmaxpoint + '→' + po + '/' + banmaxpoint})
-          .setColor(0x3cb371)
+          .setColor(success)
           .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
           .setFooter({ name: "実行者", text: username, iconURL: icon });
         interaction.reply({ embeds: [embed] })
@@ -332,18 +326,18 @@ if(!checkStringInArray(namae.id, admin)){
       else {
         // interaction.reply({ content: '10未満に設定してください', ephemeral: true })
         const embed = new EmbedBuilder()  //お知らせ
-          .setTitle('荒らし対策')
+          .setTitle(mybotname)
           .setFields({ name: 'エラー', value: banmaxpoint + '未満に設定してください。' })
-          .setColor(0xffa000)
+          .setColor(warn)
           .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
           .setFooter({ name: "実行者", text: username, iconURL: icon });
         interaction.reply({ embeds: [embed] })
       }}
       else{
         const embed = new EmbedBuilder()  //お知らせ
-        .setTitle('荒らし対策')
+        .setTitle(mybotname)
         .setFields({ name: 'エラー', value: '管理者は選択できません' })
-        .setColor(0xff0000)
+        .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
@@ -352,9 +346,9 @@ if(!checkStringInArray(namae.id, admin)){
     else {
       //interaction.reply({ content: 'あなたは管理者として設定されていません', ephemeral: true })
       const embed = new EmbedBuilder()  //お知らせ
-        .setTitle('荒らし対策')
+        .setTitle(mybotname)
         .setFields({ name: 'permission denied', value: 'あなたは管理者として設定されていません' })
-        .setColor(0xff0000)
+        .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
@@ -362,10 +356,10 @@ if(!checkStringInArray(namae.id, admin)){
   }else{
    var botname = namae.username
     const embed = new EmbedBuilder()
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
 
       .setFields({ name: 'エラー', value:botname + "はbotです。"})
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
@@ -386,9 +380,9 @@ client.on('messageCreate', async message => {
       const username = message.member.user.username;
       console.log(message.content + "を削除しました")
       const embed = new EmbedBuilder()  //お知らせ
-        .setTitle('荒らし対策')
+        .setTitle(mybotname)
         .setFields({ name: '報告', value: '不適切な表現が検出されました。' }, { name: '内容:', value: messageas })
-        .setColor(0xffa000)
+        .setColor(warn)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       log.forEach(function (element) {
@@ -402,7 +396,7 @@ client.on('messageCreate', async message => {
     var  messageas = message.content
      var username = message.author.username  //違反点数を与える(beta)
 
-      point(message, 1, client, 0xffa000, '不適切な表現が検出されました。違反点数を1ポイント付与しました')
+      point(message, 1, client, warn, '不適切な表現が検出されました。違反点数を1ポイント付与しました')
       message.delete(100)  //message delete
     }
   }
@@ -418,9 +412,9 @@ client.on('messageCreate', async message => {
       console.log(username + 'をtimeoutできませんでした。ですがtoken削除を実行しました')
 
       const embed = new EmbedBuilder()  //お知らせ
-        .setTitle('荒らし対策')
+        .setTitle(mybotname)
         .setFields({ name: '報告', value: 'timeoutできませんでした。ですがtoken削除を実行しました' }, { name: "内容", value: messageas })
-        .setColor(0xffa000)
+        .setColor(warn)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       //client.channels.cache.get(log).send({ embeds: [embed] })
@@ -437,7 +431,7 @@ client.on('messageCreate', async message => {
       //await member.ban()
 
       console.log(username + "から、tokenの送信が検出されました")
-      point(message, 5, client, 0xffa000, 'tokenを検知しました。timeoutを60秒セットしました。違反点数を5ポイント付与しました',)
+      point(message, 5, client, warn, 'tokenを検知しました。timeoutを60秒セットしました。違反点数を5ポイント付与しました',)
       message.delete(100)
     }
   }
@@ -485,7 +479,7 @@ async function point(message, poi, client, color, naiyou) {
   const newPunishments = userPunishments + poi; // 違反点数を1増やす
   await punishments.set(userId, newPunishments); // 違反点数を保存
   const embed = new EmbedBuilder()  //お知らせ
-    .setTitle('荒らし対策')
+    .setTitle(mybotname)
     .setFields({ name: '報告', value: naiyou }, { name: '内容:', value: messageas }, { name: '違反点数', value: newPunishments + "/" + banmaxpoint })
     .setColor(color)
     .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
@@ -502,9 +496,9 @@ async function point(message, poi, client, color, naiyou) {
     syncban()
     await punishments.delete(userId); // 違反点数をリセット
     const embed = new EmbedBuilder()  //お知らせ
-      .setTitle('荒らし対策')
+      .setTitle(mybotname)
       .setFields({ name: '報告', value: '違反点数の超過でgbanしました。' })
-      .setColor(0xff0000)
+      .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "名前", text: username, iconURL: icon });
     //client.channels.cache.get(log).send({ embeds: [embed] })
