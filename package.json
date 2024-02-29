@@ -6,6 +6,7 @@
     "readline-sync": "^1.4.10",
     "signale": "^1.4.0"
   },
+  "type": "module",
    "scripts": {
     "start": "node index.js"
   }
