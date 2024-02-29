@@ -1,9 +1,12 @@
 // Response for Uptime Robot
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+import botconfig from "./config.js";
+//const botconfig = require("./con.js");
 const http = require('http');
 const fs = require('fs');
 const { Client, Events, GatewayIntentBits, Intents, EmbedBuilder, SlashCommandBuilder} = require('discord.js');
 const Keyv = require('keyv');
-const botconfig = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 const punishments = new Keyv('sqlite://data.db' ,{ table: 'points' })
 const db = new Keyv('sqlite://data.db', { table: 'bans' })
 http.createServer(function (request, response) {
@@ -18,7 +21,8 @@ function checkStringInArray(str, array) {
 const log = (botconfig.log)//logを送信するid
 const token = (botconfig.token)//token
 const banmaxpoint = (botconfig.banmaxpoint)
-
+const owner = (botconfig.owner)
+const admin = (botconfig.admin)
 // Discord bot implements
 const discord = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
@@ -96,15 +100,15 @@ client.on(Events.InteractionCreate, async interaction => {
 
   //}
   if (interaction.commandName === 'pardon'){
-    pardonuser = interaction.options.getUser("user")
-    pardonname = pardonuser.globalName
+    var pardonuser = interaction.options.getUser("user")
+    var pardonname = pardonuser.globalName
     const baskup = pardonuser
-        pardonuser = pardonuser.id
-    if (checkStringInArray(interaction.member.id, botconfig.admin)) {
+         var pardonuser = pardonuser.id
+    if (checkStringInArray(interaction.member.id, admin)) {
       if(!baskup.bot){
       const isBanned = await db.get(pardonuser);
       if (isBanned) {
-        if(!checkStringInArray(baskup.id, botconfig.admin)){
+        if(!checkStringInArray(baskup.id, admin)){
       UnBan(pardonuser)
       const embed = new EmbedBuilder()  //お知らせ
       .setTitle('荒らし対策')
@@ -137,10 +141,10 @@ client.on(Events.InteractionCreate, async interaction => {
     interaction.reply({ embeds: [embed] })
     }
     }else{
-      botname = baskup.username
+       var botname = baskup.username
       const embed = new EmbedBuilder()
         .setTitle('荒らし対策')
-  
+
         .setFields({ name: 'エラー', value:botname + "はbotです。"})
         .setColor(0xff0000)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
@@ -160,8 +164,9 @@ client.on(Events.InteractionCreate, async interaction => {
     }
   }
   else if (interaction.commandName === 'syncing'){
-    if (checkStringInArray(interaction.member.id, botconfig.admin)) {
-   syncban()
+    if (checkStringInArray(interaction.member.id, admin )) {
+
+      syncban()
    const embed = new EmbedBuilder()  //お知らせ
    .setTitle('荒らし対策')
 
@@ -184,12 +189,12 @@ client.on(Events.InteractionCreate, async interaction => {
   }
 
   else if (interaction.commandName === 'gban') {
-    if (checkStringInArray(interaction.member.id, botconfig.admin)) {
-    gbanuser = interaction.options.getUser("user")
+    if (checkStringInArray(interaction.member.id, admin)) {
+    var gbanuser = interaction.options.getUser("user")
     const gbanname = gbanuser.globalName
     const bot = gbanuser.bot
-    gbanuser = gbanuser.id
-    if (!checkStringInArray(gbanuser, botconfig.admin)) {
+    var gbanuser = gbanuser.id
+    if (!checkStringInArray(gbanuser, admin)) {
       if(!bot){
 
     const isBanned = await db.get(gbanuser);
@@ -248,27 +253,27 @@ client.on(Events.InteractionCreate, async interaction => {
   }
   }
   else if (interaction.commandName === 'check') {
-    getuserpoint = interaction.options.getUser("user")
+    var getuserpoint = interaction.options.getUser("user")
     const checkicon = getuserpoint.avatarURL();
     //console.log(getuserpoint)
-    appro = getuserpoint.globalName
+    var appro = getuserpoint.globalName
 
     if(!getuserpoint.bot){
     getuserpoint = getuserpoint.id
-    if (checkStringInArray(getuserpoint, botconfig.admin)) {
-      state = (':white_check_mark:')
+    if (checkStringInArray(getuserpoint, admin)) {
+       var state = (':white_check_mark:')
     }
     else {
-      state = (':x: ')
+      var state = (':x: ')
     }
     //console.log(getuser)
     const userPunishments = await punishments.get(getuserpoint) || 0;
     const isBanned = await db.get(getuserpoint);
     if (isBanned) {
-      banstate = (':white_check_mark:')
+      var banstate = (':white_check_mark:')
     }
     else {
-      banstate = (':x: ')
+       var banstate = (':x: ')
     }
     const embed = new EmbedBuilder()
       .setTitle('荒らし対策')
@@ -283,7 +288,7 @@ client.on(Events.InteractionCreate, async interaction => {
     interaction.reply({ embeds: [embed] })
     // interaction.reply({ content:appro + 'のポイントは' + userPunishments + 'です。', ephemeral: true })
   }else{
-    botname = getuserpoint.username
+     var botname = getuserpoint.username
     const embed = new EmbedBuilder()
       .setTitle('荒らし対策')
 
@@ -298,11 +303,11 @@ client.on(Events.InteractionCreate, async interaction => {
 
 
   else if (interaction.commandName === 'point') {
-    namae = interaction.options.getUser("user")
-    pointoo = interaction.options.getNumber("point")
+     var namae = interaction.options.getUser("user")
+     var pointoo = interaction.options.getNumber("point")
     if(!namae.bot){
-    if (checkStringInArray(interaction.member.id, botconfig.admin)) {
-if(!checkStringInArray(namae.id, botconfig.admin)){
+    if (checkStringInArray(interaction.member.id, admin)) {
+if(!checkStringInArray(namae.id, admin)){
 
       //if (namae.permissions.has('Administrator')){
       //console.log(namae)
@@ -355,7 +360,7 @@ if(!checkStringInArray(namae.id, botconfig.admin)){
       interaction.reply({ embeds: [embed] })
     }
   }else{
-    botname = namae.username
+   var botname = namae.username
     const embed = new EmbedBuilder()
       .setTitle('荒らし対策')
 
@@ -374,10 +379,10 @@ if(!checkStringInArray(namae.id, botconfig.admin)){
 client.on('messageCreate', async message => {
   const icon = message.member.user.avatarURL();
   if (message.content.match(/test!|しね|ころす|死ね|sine|殺す|きっしょ|ゴミ|野獣先輩|糞|カス|消えろ|生きる価値なし|きえろ|fuck|fxxk|ファック|ふぁっく/)) {  //悪いものがないか探る
-    if (message.author.bot || checkStringInArray(message.member.id, botconfig.owner)) return;
-    if (checkStringInArray(message.member.id, botconfig.owner)) return;
-    if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, botconfig.admin)) {
-      messageas = message.content
+    if (message.author.bot || checkStringInArray(message.member.id, owner)) return;
+    if (checkStringInArray(message.member.id, owner)) return;
+    if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, admin)) {
+     var messageas = message.content
       const username = message.member.user.username;
       console.log(message.content + "を削除しました")
       const embed = new EmbedBuilder()  //お知らせ
@@ -394,8 +399,8 @@ client.on('messageCreate', async message => {
       message.delete(100)  //message delete
     }
     else {
-      messageas = message.content
-      username = message.author.username  //違反点数を与える(beta)
+    var  messageas = message.content
+     var username = message.author.username  //違反点数を与える(beta)
 
       point(message, 1, client, 0xffa000, '不適切な表現が検出されました。違反点数を1ポイント付与しました')
       message.delete(100)  //message delete
@@ -404,12 +409,12 @@ client.on('messageCreate', async message => {
 })
 client.on('messageCreate', async message => {
   if (message.content.match(/[a-zA-Z0-9_-]{23,28}\.[a-zA-Z0-9_-]{6,7}\.[a-zA-Z0-9_-]{27}/)) { // tokenの検知
-    if (message.author.bot || checkStringInArray(message.member.id, botconfig.owner)) return;
-    member = message.member
+    if (message.author.bot || checkStringInArray(message.member.id, owner)) return;
+   var member = message.member
     const icon = message.member.user.avatarURL();
-    const username = message.member.user.username;
-    messageas = message.content
-    if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, botconfig.admin)) {     //adminの時
+    var username = message.member.user.username;
+ var   messageas = message.content
+    if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, admin)) {     //adminの時
       console.log(username + 'をtimeoutできませんでした。ですがtoken削除を実行しました')
 
       const embed = new EmbedBuilder()  //お知らせ
@@ -426,8 +431,8 @@ client.on('messageCreate', async message => {
       message.delete(100)
     }
     else {
-      member = message.member
-      username = message.author.username
+     var member = message.member
+     var username = message.author.username
       member.timeout(60_000, "tokenの送信");
       //await member.ban()
 
@@ -469,7 +474,7 @@ client.on('guildCreate', (guild) => {
 
 
 async function point(message, poi, client, color, naiyou) {
-  messageas = message.content
+ var messageas = message.content
   //username = message.author.username
   const icon = message.member.user.avatarURL();
   const username = interaction.member.user.username;
