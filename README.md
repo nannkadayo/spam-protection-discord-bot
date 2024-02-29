@@ -7,7 +7,7 @@
 ・keyv  
 ・signale  
 もちろん自由に使ってください（使う人はいない）  
-config.jsonはtokenにdiscord botのtokenを    
+bot.config.jsはtokenにdiscord botのtokenを    
 logに送信したいチャンネルidを配列としていくらでも  
 adminも登録したいadminユーザーidを配列としていくらでも  
 ownerには所有者を配列で無制限ユーザ
