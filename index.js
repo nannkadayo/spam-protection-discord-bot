@@ -27,6 +27,7 @@ const fatal = (botconfig.color.fatal)
 const warn = (botconfig.color.warn)
 const success = (botconfig.color.success)
 const mybotname = (botconfig.botdata.botname)
+const deletelist = (botconfig.botdata.abusivelist)
 // Discord bot implements
 const discord = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
@@ -372,7 +373,7 @@ if(!checkStringInArray(namae.id, admin)){
 });
 client.on('messageCreate', async message => {
   const icon = message.member.user.avatarURL();
-  if (message.content.match(/test!|しね|ころす|死ね|sine|殺す|きっしょ|ゴミ|野獣先輩|糞|カス|消えろ|生きる価値なし|きえろ|fuck|fxxk|ファック|ふぁっく/)) {  //悪いものがないか探る
+  if (message.content.match(deletelist)) {  //悪いものがないか探る
     if (message.author.bot || checkStringInArray(message.member.id, owner)) return;
     if (checkStringInArray(message.member.id, owner)) return;
     if (message.member.permissions.has('Administrator') || checkStringInArray(message.member.id, admin)) {
