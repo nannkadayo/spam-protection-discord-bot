@@ -9,6 +9,7 @@ export default {
             //すべての荒らし対策を無視できるユーザー
     "owner": [""]
         },
+    //embedのカラー
    color:{
     "fatal": 0xff0000,
     "warn": 0xffa000,
