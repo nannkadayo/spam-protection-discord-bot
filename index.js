@@ -98,7 +98,7 @@ client.on('ready', async message => {
 
 client.on(Events.InteractionCreate, async interaction => {
   const icon = interaction.member.user.avatarURL();
-  const username = interaction.member.user.username;
+  const username = interaction.member.user.globalName;
   // avatar = interaction.user.avatarURL({ dynamic: true })
   if (!interaction.isChatInputCommand()) return;
   //if (interaction.commandName === 'banlist'){
@@ -198,6 +198,7 @@ client.on(Events.InteractionCreate, async interaction => {
     var gbanuser = interaction.options.getUser("user")
     const gbanname = gbanuser.globalName
     const bot = gbanuser.bot
+      const baskup = gbanuser
     var gbanuser = gbanuser.id
     if (!checkStringInArray(gbanuser, admin)) {
       if(!bot){
@@ -228,9 +229,10 @@ client.on(Events.InteractionCreate, async interaction => {
     }
   }
   else{
+    var botname = baskup.username
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
-      .setFields({ name: 'エラー', value: 'botはban出来ません' })
+      .setFields({ name: 'エラー', value: botname + 'はbotです' })
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
