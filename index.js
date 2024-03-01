@@ -112,8 +112,8 @@ client.on(Events.InteractionCreate, async interaction => {
     if (checkStringInArray(interaction.member.id, admin)) {
       if(!baskup.bot){
       const isBanned = await db.get(pardonuser);
+      if(!checkStringInArray(baskup.id, admin)){
       if (isBanned) {
-        if(!checkStringInArray(baskup.id, admin)){
       UnBan(pardonuser)
       const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
@@ -139,7 +139,7 @@ client.on(Events.InteractionCreate, async interaction => {
     else{
       const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
-      .setFields({ name: 'エラー', value: '管理者は選択できません' })
+      .setFields({ name: 'エラー', value: baskup.globalName+ 'は管理者です' })
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -319,6 +319,7 @@ if(!checkStringInArray(namae.id, admin)){
         const po = await punishments.get(userId) || 0; 
         const embed = new EmbedBuilder()  //お知らせ
           .setTitle(mybotname)
+          .setAuthor({name: namae.globalName, iconURL: namae.avatarURL() })
           .setFields({ name: '完了', value: '操作が完了しました。' },{ name: '結果', value:oldpo + '/' + banmaxpoint + '→' + po + '/' + banmaxpoint})
           .setColor(success)
           .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
@@ -339,7 +340,7 @@ if(!checkStringInArray(namae.id, admin)){
       else{
         const embed = new EmbedBuilder()  //お知らせ
         .setTitle(mybotname)
-        .setFields({ name: 'エラー', value: '管理者は選択できません' })
+        .setFields({ name: 'エラー', value: namae.globalName+ 'は管理者です' })
         .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
