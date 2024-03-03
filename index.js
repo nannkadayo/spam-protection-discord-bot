@@ -28,6 +28,17 @@ const warn = (botconfig.color.warn)
 const success = (botconfig.color.success)
 const mybotname = (botconfig.botdata.botname)
 const deletelist = (botconfig.botdata.abusivelist)
+var log4js = require('log4js');
+var logger = log4js.getLogger();
+
+log4js.configure({
+  appenders: {
+    logFile: { type: 'file', filename: 'state.log' }
+  },
+  categories: {
+    default: { appenders: [ 'logFile' ], level: 'all' }
+  }
+});
 // Discord bot implements
 const discord = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
@@ -114,7 +125,8 @@ client.on(Events.InteractionCreate, async interaction => {
       const isBanned = await db.get(pardonuser);
       if(!checkStringInArray(baskup.id, admin)){
       if (isBanned) {
-      UnBan(pardonuser)
+     UnBan(pardonuser)
+      logger.info('pardon | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
       const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
 
@@ -134,6 +146,7 @@ client.on(Events.InteractionCreate, async interaction => {
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
+      logger.info('pardon error aleady unban | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
       }
     }
     else{
@@ -144,6 +157,7 @@ client.on(Events.InteractionCreate, async interaction => {
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
+    logger.info('pardonuser is admin | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
     }
     }else{
        var botname = baskup.username
@@ -155,6 +169,7 @@ client.on(Events.InteractionCreate, async interaction => {
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
+      logger.info('pardon error user is bot | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
     }
     }
     else {
@@ -166,12 +181,14 @@ client.on(Events.InteractionCreate, async interaction => {
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
+      logger.info('pardon permission denied | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
     }
   }
   else if (interaction.commandName === 'syncing'){
     if (checkStringInArray(interaction.member.id, admin )) {
 
       syncban()
+      logger.info('syncing | username:' + interaction.user.username + ' | id:' + interaction.user.id)
    const embed = new EmbedBuilder()  //お知らせ
    .setTitle(mybotname)
 
@@ -190,6 +207,7 @@ client.on(Events.InteractionCreate, async interaction => {
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
+    logger.info('syncing permission denied | username:' + interaction.user.username + ' | id:' + interaction.user.id)
     }
   }
 
@@ -215,6 +233,7 @@ client.on(Events.InteractionCreate, async interaction => {
     sendDM(baskup.id, dmembed)
   Ban(gbanuser)
    syncban()
+   logger.info('global ban | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
 
@@ -234,6 +253,7 @@ client.on(Events.InteractionCreate, async interaction => {
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
+    logger.info('global ban error already bans | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
     }
   }
   else{
@@ -245,6 +265,7 @@ client.on(Events.InteractionCreate, async interaction => {
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
+    logger.info('gbanuser id bot | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
   }
   }else{
     const embed = new EmbedBuilder()  //お知らせ
@@ -254,6 +275,7 @@ client.on(Events.InteractionCreate, async interaction => {
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
+    logger.info('gban error user is admin | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
   }
 }
   else {
@@ -265,6 +287,7 @@ client.on(Events.InteractionCreate, async interaction => {
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
+    logger.info('global ban permission denied | username:' + interaction.user.username + ' | id:' + interaction.user.id)
   }
   }
   else if (interaction.commandName === 'check') {
@@ -272,6 +295,7 @@ client.on(Events.InteractionCreate, async interaction => {
     const checkicon = getuserpoint.avatarURL();
     //console.log(getuserpoint)
     var appro = getuserpoint.globalName
+    const baskup = getuserpoint
 
     if(!getuserpoint.bot){
     getuserpoint = getuserpoint.id
@@ -292,6 +316,7 @@ client.on(Events.InteractionCreate, async interaction => {
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
     // interaction.reply({ content:appro + 'のポイントは' + userPunishments + 'です。', ephemeral: true })
+    logger.info('check | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
   }else{
      var botname = getuserpoint.username
     const embed = new EmbedBuilder()
@@ -302,6 +327,7 @@ client.on(Events.InteractionCreate, async interaction => {
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
+    logger.info('checkuser id bot | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
   }
   }
   // interaction.reply({ content: '管理者は選択できません', ephemeral: true })
@@ -333,7 +359,7 @@ if(!checkStringInArray(namae.id, admin)){
           .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
           .setFooter({ name: "実行者", text: username, iconURL: icon });
         interaction.reply({ embeds: [embed] })
-
+        logger.info('point | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + namae.username + ' | subject id:' + namae.id + ' | point:' + oldpo + '/' + banmaxpoint + '→' + po + '/' + banmaxpoint)
       }
       else {
         // interaction.reply({ content: '10未満に設定してください', ephemeral: true })
@@ -344,6 +370,7 @@ if(!checkStringInArray(namae.id, admin)){
           .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
           .setFooter({ name: "実行者", text: username, iconURL: icon });
         interaction.reply({ embeds: [embed] })
+        logger.info('point error too many points | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + namae.username + ' | subject id:' + namae.id + ' | error point:' + pointoo)
       }}
       else{
         const embed = new EmbedBuilder()  //お知らせ
@@ -353,6 +380,7 @@ if(!checkStringInArray(namae.id, admin)){
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
+      logger.info('pointuser is admin | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + namae.username + ' | subject id:' + namae.id)
       }
     }
     else {
@@ -364,6 +392,7 @@ if(!checkStringInArray(namae.id, admin)){
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
       interaction.reply({ embeds: [embed] })
+      logger.info('point permission denied | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + namae.username + ' | subject id:' + namae.id)
     }
   }else{
    var botname = namae.username
@@ -375,6 +404,7 @@ if(!checkStringInArray(namae.id, admin)){
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
     interaction.reply({ embeds: [embed] })
+    logger.info('pointuser is bot | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
   }
 }
   //else{
@@ -400,6 +430,7 @@ client.on('messageCreate', async message => {
       log.forEach(function (element) {
         client.channels.cache.get(element).send({ embeds: [embed] })
       });
+      logger.info('abusive message user is admin | username:' + message.author.username + ' | id:' + message.author.id)
       //client.channels.cache.get(log).send({ embeds: [embed] })
       // message.reply({ embeds: [embed] })
       message.delete(100)  //message delete
@@ -410,6 +441,7 @@ client.on('messageCreate', async message => {
 
       point(message, 1, client, warn, '不適切な表現が検出されました。違反点数を1ポイント付与しました')
       message.delete(100)  //message delete
+      logger.info('abusive message | username:' + message.author.username + ' | id:' + message.author.id + ' | point:' + '1' + '/' + banmaxpoint)
     }
   }
 })
@@ -433,6 +465,7 @@ client.on('messageCreate', async message => {
       log.forEach(function (element) {
         client.channels.cache.get(element).send({ embeds: [embed] })
       });
+      logger.info('token message user is admin | username:' + message.author.username + ' | id:' + message.author.id)
       //message.reply({ embeds: [embed] })
       message.delete(100)
     }
@@ -444,6 +477,7 @@ client.on('messageCreate', async message => {
 
       console.log(username + "から、tokenの送信が検出されました")
       point(message, 5, client, warn, 'tokenを検知しました。timeoutを60秒セットしました。違反点数を5ポイント付与しました',)
+      logger.info('token message | username:' + message.author.username + ' | id:' + message.author.id + ' | point:' + '5' + '/' + banmaxpoint)
       message.delete(100)
     }
   }
@@ -454,6 +488,7 @@ client.on('guildMemberAdd', async member => {
   if (!member.permissions.has('Administrator')) {
     if (await db.get(member.user.id)) {
       await member.ban({ reason: 'Global Ban' });
+      logger.info('banuser is join | username:' + member.user.username + ' | id:' + member.user.id)
     }
   }
   else {
@@ -470,6 +505,7 @@ client.on('guildCreate', (guild) => {
         if (isBanned) {
           if (!membersa.permissions.has('Administrator')) {
           membersa.ban({ reason: 'グローバルbanされているユーザーです。' });
+          logger.info('server join user already ban| username:' + membersa.user.username + ' | id:' + membersa.user.id)
           }else {
             console.log('サーバーの管理者である可能性があります')
           }
@@ -526,6 +562,7 @@ async function point(message, poi, client, color, naiyou) {
     log.forEach(function (element) {
       client.channels.cache.get(element).send({ embeds: [embed] })
     });
+    logger.info('too many points global ban| username:' + message.author.username + ' | id:' + message.author.id)
     return;
   }
 }
