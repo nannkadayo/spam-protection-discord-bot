@@ -205,8 +205,16 @@ client.on(Events.InteractionCreate, async interaction => {
 
     const isBanned = await db.get(gbanuser);
     if (!isBanned) {
-    Ban(gbanuser)
-    syncban()
+      const dmembed = new EmbedBuilder()  //お知らせ
+      .setTitle(mybotname)
+      .setAuthor({ name: baskup.globalName, iconURL: baskup.avatarURL() })
+      .setFields({ name: '報告', value: 'あなたは管理者にglobal banされました。' })
+      .setColor(fatal)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text: username, iconURL: icon });
+    sendDM(baskup.id, dmembed)
+  Ban(gbanuser)
+   syncban()
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
 
@@ -475,7 +483,7 @@ async function point(message, poi, client, color, naiyou) {
  var messageas = message.content
   //username = message.author.username
   const icon = message.member.user.avatarURL();
-  const username = interaction.member.user.username;
+  const username = message.author.username;
   if (message.author.bot) return; // ボットのメッセージは無視する
 
   const userId = message.author.id;
@@ -496,8 +504,16 @@ async function point(message, poi, client, color, naiyou) {
 
   if (newPunishments >= banmaxpoint) {
     console.log(username + "を、gbanしました。")
+    const dmembed = new EmbedBuilder()  //お知らせ
+      .setTitle(mybotname)
+      .setAuthor({ name: message.author.globalName, iconURL: message.author.avatarURL() })
+      .setFields({ name: '報告', value: 'あなたは違反点数を超過したためglobal banされました。' })
+      .setColor(fatal)
+      .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
+      .setFooter({ name: "実行者", text:  client.user.username, iconURL:  client.user.avatarURL() });
+    sendDM(message.author.id, dmembed)
     Ban(userId);
-    syncban()
+   syncban()
     await punishments.delete(userId); // 違反点数をリセット
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
@@ -513,9 +529,14 @@ async function point(message, poi, client, color, naiyou) {
     return;
   }
 }
-function embedsdm(id,naiyou){
-  const user = client.users.cache.get(id)
-  user.send({ embeds:[naiyou]})
+function sendDM(userId, embed) {
+  client.users.fetch(userId)
+      .then(e => {
+          e.send({ embeds: [embed] })
+             // .then(console.log("メッセージ送信: " + text + JSON.stringify(option)))
+              .catch(console.error); // 1
+      })
+      .catch(console.error); // 2
 }
 function syncban(){
   client.guilds.cache.forEach(g => { // Botが参加しているすべてのサーバーで実行
