@@ -33,7 +33,7 @@ var logger = log4js.getLogger();
 
 log4js.configure({
   appenders: {
-    logFile: { type: 'file', filename: 'state.log' }
+    logFile: { type: 'file', filename: botconfig.botdata.logfilename }
   },
   categories: {
     default: { appenders: [ 'logFile' ], level: 'all' }
