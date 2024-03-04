@@ -129,8 +129,8 @@ client.on(Events.InteractionCreate, async interaction => {
       logger.info('pardon | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
       const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
-
-      .setFields({ name: '結果', value: pardonname + 'をgban解除しました。' })
+      .setAuthor({name: baskup.globalName, iconURL: baskup.avatarURL()})
+      .setFields({ name: '結果', value: 'gban解除しました。' })
       .setColor(success)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -140,8 +140,8 @@ client.on(Events.InteractionCreate, async interaction => {
       else{
         const embed = new EmbedBuilder()  //お知らせ
         .setTitle(mybotname)
-
-        .setFields({ name: 'エラー', value: pardonname + 'は、banされていません。' })
+           .setAuthor({name: baskup.globalName, iconURL: baskup.avatarURL()})
+        .setFields({ name: 'エラー', value: 'banされていません。' })
         .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -152,7 +152,8 @@ client.on(Events.InteractionCreate, async interaction => {
     else{
       const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
-      .setFields({ name: 'エラー', value: baskup.globalName+ 'は管理者です' })
+         .setAuthor({name: baskup.globalName, iconURL: baskup.avatarURL()})
+      .setFields({ name: 'エラー', value: '管理者は選択できません' })
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -163,8 +164,8 @@ client.on(Events.InteractionCreate, async interaction => {
        var botname = baskup.username
       const embed = new EmbedBuilder()
         .setTitle(mybotname)
-
-        .setFields({ name: 'エラー', value:botname + "はbotです。"})
+         .setAuthor({name: baskup.username, iconURL: baskup.avatarURL()})
+        .setFields({ name: 'エラー', value:"botは選択できません。"})
         .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -236,8 +237,8 @@ client.on(Events.InteractionCreate, async interaction => {
    logger.info('global ban | username:' + interaction.user.username + ' | id:' + interaction.user.id + ' | subject username:' + baskup.username + ' | subject id:' + baskup.id)
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
-
-      .setFields({ name: '結果', value: gbanname + 'をgbanしました。' })
+       .setAuthor({name: baskup.globalName, iconURL: baskup.avatarURL()})
+      .setFields({ name: '結果', value: 'gbanしました。' })
       .setColor(success)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -247,8 +248,8 @@ client.on(Events.InteractionCreate, async interaction => {
     else{
       const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
-
-      .setFields({ name: 'エラー', value: gbanname + 'は、既にbanされています' })
+         .setAuthor({name: baskup.globalName, iconURL: baskup.avatarURL()})
+      .setFields({ name: 'エラー', value: '既にbanされています' })
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -260,7 +261,8 @@ client.on(Events.InteractionCreate, async interaction => {
     var botname = baskup.username
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
-      .setFields({ name: 'エラー', value: botname + 'はbotです' })
+       .setAuthor({name: baskup.username, iconURL: baskup.avatarURL()})
+      .setFields({ name: 'エラー', value: 'はbotです' })
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -270,6 +272,7 @@ client.on(Events.InteractionCreate, async interaction => {
   }else{
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
+       .setAuthor({name: baskup.globalName, iconURL: baskup.avatarURL()})
       .setFields({ name: 'permission denied', value: '管理者はban出来ません' })
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
@@ -303,7 +306,7 @@ client.on(Events.InteractionCreate, async interaction => {
     //console.log(getuser)
     const userPunishments = await punishments.get(getuserpoint) || 0;
     const isBanned = await db.get(getuserpoint);
-    
+
     const embed = new EmbedBuilder()
       .setTitle(mybotname)
       .setAuthor({
@@ -321,8 +324,8 @@ client.on(Events.InteractionCreate, async interaction => {
      var botname = getuserpoint.username
     const embed = new EmbedBuilder()
       .setTitle(mybotname)
-
-      .setFields({ name: 'エラー', value:botname + "はbotです。"})
+       .setAuthor({name: baskup.globalName, iconURL: baskup.avatarURL()})
+      .setFields({ name: 'エラー', value:"botは選択できません"})
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -365,6 +368,7 @@ if(!checkStringInArray(namae.id, admin)){
         // interaction.reply({ content: '10未満に設定してください', ephemeral: true })
         const embed = new EmbedBuilder()  //お知らせ
           .setTitle(mybotname)
+           .setAuthor({name: namae.globalName, iconURL: namae.avatarURL()})
           .setFields({ name: 'エラー', value: banmaxpoint + '未満に設定してください。' })
           .setColor(warn)
           .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
@@ -375,7 +379,8 @@ if(!checkStringInArray(namae.id, admin)){
       else{
         const embed = new EmbedBuilder()  //お知らせ
         .setTitle(mybotname)
-        .setFields({ name: 'エラー', value: namae.globalName+ 'は管理者です' })
+          .setAuthor({name: namae.globalName, iconURL: namae.avatarURL()})
+        .setFields({ name: 'エラー', value:'管理者は選択できません' })
         .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
         .setFooter({ name: "実行者", text: username, iconURL: icon });
@@ -387,6 +392,7 @@ if(!checkStringInArray(namae.id, admin)){
       //interaction.reply({ content: 'あなたは管理者として設定されていません', ephemeral: true })
       const embed = new EmbedBuilder()  //お知らせ
         .setTitle(mybotname)
+        //.setAuthor({name: namae.globalName, iconURL: namae.avatarURL()})
         .setFields({ name: 'permission denied', value: 'あなたは管理者として設定されていません' })
         .setColor(fatal)
         .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
@@ -398,8 +404,8 @@ if(!checkStringInArray(namae.id, admin)){
    var botname = namae.username
     const embed = new EmbedBuilder()
       .setTitle(mybotname)
-
-      .setFields({ name: 'エラー', value:botname + "はbotです。"})
+      .setAuthor({name: namae.username, iconURL: namae.avatarURL()})
+      .setFields({ name: 'エラー', value:"botは選択できません。"})
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
