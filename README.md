@@ -1,7 +1,7 @@
 # spam-protection-discord-bot
 
 
-> [!INFO]
+> [!NOTE]
 > For instructions on how to use it, please check "Usage" below.  
 > 使い方は、下の「Usage / 使い方」をご確認ください
 
