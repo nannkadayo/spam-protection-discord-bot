@@ -46,7 +46,7 @@ node-log4js
 |`color.success`|Coloring embedded messages in case of successes / successの時のembedのカラーリング|
 |`color.fatal`|Coloring embedded messages in case of fatales / fatalの時のembedのカラーリング|
 |`color.warn`|Coloring embedded messages in case of warnes / warnの時のembedのカラーリング|
-|`botdata.log`|global banされた場合や、違反行為をした場合の通知先(カンマ(,)で複数指定|
+|`botdata.log`|global Notification destination in case of ban or infraction (specify multiple addresses with comma (,))/global banされた場合や、違反行為をした場合の通知先(カンマ(,)で複数指定|
 
 ## Usage / 使い方
 
