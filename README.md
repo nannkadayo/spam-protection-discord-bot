@@ -9,7 +9,7 @@
 
 ### Dependencies / 依存関係
 
-[![discord.js v14.x\~](https://img.shields.io/badge/-Node.js-339933.svg?logo=node.js&style=plastic])
+[![Node.js v21.x\~](https://img.shields.io/badge/-node.js%20v21.x~-black.svg?logo=node.js&style=for-the-badge)](https://github.com/nodejs/node)
 ## Files / ファイル
 
 |File Name / ファイル名|Description / 説明|
