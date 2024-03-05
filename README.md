@@ -40,7 +40,7 @@ node-log4js
 |---|---|
 |`npm start`|launch the bot ボットを起動します|
 
-## environmental variables / 環境変数 (.env)
+## environmental variables / config (bot.config.js)
 
 |variables name / 変数名|Description / 説明|
 |---|---|
