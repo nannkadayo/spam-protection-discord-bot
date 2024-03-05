@@ -10,7 +10,19 @@
 [![Node.js v21.x\~](https://img.shields.io/badge/-node.js%20v21.x~-black.svg?logo=node.js&style=for-the-badge)](https://github.com/nodejs/node)
 [![](https://img.shields.io/badge/-esmodule-black.svg?logo=javascript&style=for-the-badge)](https://nodejs.org/api/esm.html)
 ### Dependencies / 依存関係
-[![@keyv/sqlite^3.6.7~](https://img.shields.io/badge/-@keyv/sqlite%20v14.x~-black.svg?logo=keyv&style=for-the-badge)](https://www.npmjs.com/package/discord.js)
+```
+@keyv/sqlite
+```
+```
+keyv
+```
+```
+signale
+```
+```
+node-log4js
+```
+
 ## Files / ファイル
 
 |File Name / ファイル名|Description / 説明|
