@@ -67,8 +67,8 @@ node-log4js
 
 |Command / コマンド|Description / 説明|
 |---|---|
-|`/point`|Change points|
-|`/check`|Check user information|
-|`/gban`|user global ban|
-|`/pardon`|Remove the user's global ban|
-|`/syncing`|ban syncing|
+|`/point`|Change points / 違反点数の変更|
+|`/check`|Check user information / ユーザー情報の確認|
+|`/gban`|user global ban / ユーザーをグローバルbanする|
+|`/pardon`|Remove the user's global ban / ユーザーをグローバルban解除する|
+|`/syncing`|ban syncing / グローバルbanの同期|
