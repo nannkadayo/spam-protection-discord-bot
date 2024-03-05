@@ -6,10 +6,10 @@
 > 使い方は、下の「Usage / 使い方」をご確認ください
 
 グローバルbanと違反点数を管理して自動でglobal banしたりするもの
-
+## Environment / 環境
+[![Node.js v21.x\~](https://img.shields.io/badge/-node.js%20v21.x~-green.svg?logo=node.js&style=for-the-badge)](https://github.com/nodejs/node)
 ### Dependencies / 依存関係
-
-[![Node.js v21.x\~](https://img.shields.io/badge/-node.js%20v21.x~-black.svg?logo=node.js&style=for-the-badge)](https://github.com/nodejs/node)
+[![discord.js v14.x\~](https://img.shields.io/badge/-discord.js%20v14.x~-black.svg?logo=discord&style=for-the-badge)](https://www.npmjs.com/package/discord.js)
 ## Files / ファイル
 
 |File Name / ファイル名|Description / 説明|
