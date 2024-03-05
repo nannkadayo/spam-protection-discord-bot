@@ -59,7 +59,6 @@ node-log4js
 
 - run `npm start`
 
-## Example / 例
 
 ### Slashcommand / スラッシュコマンド
 
