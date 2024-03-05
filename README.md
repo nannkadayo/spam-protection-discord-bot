@@ -11,6 +11,9 @@
 [![](https://img.shields.io/badge/-esmodule-black.svg?logo=javascript&style=for-the-badge)](https://nodejs.org/api/esm.html)
 ### Dependencies / 依存関係
 ```
+discord.js v14
+```
+```
 @keyv/sqlite
 ```
 ```
