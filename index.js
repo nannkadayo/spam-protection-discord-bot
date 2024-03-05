@@ -262,7 +262,7 @@ client.on(Events.InteractionCreate, async interaction => {
     const embed = new EmbedBuilder()  //お知らせ
       .setTitle(mybotname)
        .setAuthor({name: baskup.username, iconURL: baskup.avatarURL()})
-      .setFields({ name: 'エラー', value: 'はbotです' })
+      .setFields({ name: 'エラー', value: 'botです' })
       .setColor(fatal)
       .setTimestamp()//引数にはDateオブジェクトを入れることができる。何も入れないと今の時間になる
       .setFooter({ name: "実行者", text: username, iconURL: icon });
