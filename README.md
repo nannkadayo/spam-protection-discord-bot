@@ -63,7 +63,7 @@ node-log4js
 - run `npm start`
 ### log / ログ
 起動停止以外の全アクションが保存されます
-#### default log file / state.log
+#### default log file / デフォルトのログファイル / state.log
 ### Slashcommand / スラッシュコマンド
 
 |Command / コマンド|Description / 説明|
