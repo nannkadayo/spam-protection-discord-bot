@@ -4,8 +4,6 @@
     "discord.js": "^14.14.1",
     "keyv": "^4.5.4",
     "node-log4js": "^0.0.2",
-    "readline-sync": "^1.4.10",
-    "signale": "^1.4.0"
   },
   "type": "module",
   "scripts": {
