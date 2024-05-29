@@ -7,6 +7,7 @@
 > 
 > このプロジェクトのbotは基本的に1サーバーにつき1ボット
 > つまり1つbotを作ったら複数サーバで同一botを使用することは非推奨です(同一の管理者の場合を除く)
+
 グローバルbanと違反点数を管理して自動でglobal banしたりするもの
 ## Environment / 環境
 [![Node.js v21.x\~](https://img.shields.io/badge/-node.js%20v21.x~-black.svg?logo=node.js&style=for-the-badge)](https://github.com/nodejs/node)
