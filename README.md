@@ -4,6 +4,7 @@
 > [!NOTE]
 > For instructions on how to use it, please check "Usage" below.  
 > 使い方は、下の「Usage / 使い方」をご確認ください
+> 
 > このプロジェクトのbotは基本的に1サーバーにつき1ボット
 > つまり1つbotを作ったら複数サーバで同一botを使用することは非推奨です(同一の管理者の場合を除く)
 グローバルbanと違反点数を管理して自動でglobal banしたりするもの
